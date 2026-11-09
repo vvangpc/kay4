@@ -1,0 +1,10 @@
+.deps/
+__pycache__/
+build/
+build-debug/
+dist/
+tmp/
+写入记录/
+release/
+/HANDOFF.md
+HxTool.exe
