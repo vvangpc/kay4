@@ -190,7 +190,7 @@ class Window(QMainWindow):
         header_layout.addWidget(separator)
         self.locate_toggle = QCheckBox('按键定位')
         self.locate_toggle.setEnabled(False)
-        self.locate_toggle.setToolTip('开启时临时绑定四个定位键；关闭或退出时恢复已保存的正式配置。')
+        self.locate_toggle.setToolTip('首次使用：先设置全部四键（含第四键）并点击「写入全部」，写入成功后再开启定位。关闭或退出时恢复正式配置。')
         self.locate_toggle.toggled.connect(self.toggle_location)
         header_layout.addWidget(self.locate_toggle)
         self.locate_state = QLabel('')
@@ -441,7 +441,7 @@ class Window(QMainWindow):
         if enable:
             try:
                 if not self.locator.can_start(self.locator.target()):
-                    raise ValueError('请先写入完整四键正式方案，才能保存恢复依据并开启定位。')
+                    raise ValueError('首次定位前，请先设置全部四键（第四键不能留空），点击「写入全部」，写入成功后再开启定位。')
                 if self.reader is None:
                     self.reader = KeyboardReader(int(self.winId()))
             except Exception as error:
@@ -654,12 +654,14 @@ class Window(QMainWindow):
             '1. 用鼠标选择左侧按键，编辑快捷键或宏。\n'
             '2. 可录入或手动填写组合键，例如 Ctrl+Alt+P。\n'
             '3. 点击写入后生效；第四键留空时会跳过，不会清空旧配置。\n\n'
+            '首次使用按键定位：先设置全部四键（含第四键），点击「写入全部」，\n'
+            '写入成功后再开启「按键定位」。仅编辑未写入时不能定位。\n\n'
             '宏最多 12 步，每步一个普通键加修饰键，延时 0–10000 毫秒。\n'
             '录制仅在录制窗口内进行；系统快捷键请手动填写。\n'
             '本程序不读取键盘现有配置；方案和上次编辑内容保存在电脑。\n'
             '定位会临时改为 F13–F16；关闭、退出、切换应用时恢复正式功能。\n'
             '录入或录制时不自动切换；点击写入会先退出定位再应用修改。\n'
-            '请先写入四键正式方案建立恢复记录。若断连，接回原 USB 口重试恢复。\n'
+            '若断连，接回原 USB 口重试恢复。\n'
             '异常退出时无法立即恢复；下次启动会根据记录自动尝试恢复。\n'
             '“已发送”表示传输完成，需实测按键顺序、执行效果及拔插后保存。\n'
             '程序不后台常驻；第四键使用目标程序自己的全局快捷键。')
